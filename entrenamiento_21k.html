@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan 21K — Pablo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F5F0;
+  --surface:#FFFFFF;
+  --border:#E2DED8;
+  --text:#1A1916;
+  --muted:#8A8780;
+  --accent:#2D6A4F;
+  --accent-light:#D8EDE3;
+  --accent-mid:#74C69D;
+  --warn:#B45309;
+  --warn-light:#FEF3C7;
+  --danger:#991B1B;
+  --danger-light:#FEE2E2;
+  --blue:#1D4ED8;
+  --blue-light:#DBEAFE;
+  --phase-base:#E8F5EE;
+  --phase-dev:#EEF2FF;
+  --phase-esp:#FFF7ED;
+  --phase-tap:#FDF2F2;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6}
+/* HEADER */
+.header{background:var(--text);color:#F7F5F0;padding:24px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.header-left h1{font-family:'DM Mono',monospace;font-size:20px;font-weight:400;letter-spacing:-.02em}
+.header-left p{font-size:13px;opacity:.55;margin-top:2px}
+.header-right{display:flex;gap:20px;text-align:right}
+.stat-h{font-family:'DM Mono',monospace;font-size:22px;font-weight:500;color:var(--accent-mid)}
+.stat-l{font-size:11px;opacity:.5;text-transform:uppercase;letter-spacing:.08em}
+/* NAV */
+.nav{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--surface);padding:0 32px}
+.nav-btn{padding:14px 20px;font-size:13px;font-family:'DM Mono',monospace;border:none;background:none;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;letter-spacing:-.01em}
+.nav-btn.active{color:var(--text);border-bottom-color:var(--accent)}
+/* MAIN */
+.main{max-width:960px;margin:0 auto;padding:32px 24px}
+.panel{display:none}.panel.active{display:block}
+/* CARDS */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-bottom:16px}
+.card-title{font-family:'DM Mono',monospace;font-size:13px;font-weight:500;letter-spacing:.02em;color:var(--muted);text-transform:uppercase;margin-bottom:14px}
+/* PROGRESS BAR */
+.prog-wrap{margin-bottom:24px}
+.prog-row{display:grid;grid-template-columns:70px 1fr 90px;gap:10px;align-items:center;margin-bottom:8px;font-size:13px}
+.prog-label{color:var(--muted);font-family:'DM Mono',monospace;font-size:12px}
+.prog-bar-bg{background:var(--bg);border-radius:4px;height:22px;overflow:hidden;position:relative}
+.prog-bar{height:100%;border-radius:4px;display:flex;align-items:center;padding:0 8px;font-size:11px;font-family:'DM Mono',monospace;font-weight:500;transition:width .4s ease;white-space:nowrap;overflow:hidden}
+.pb-base{background:#A7F3D0;color:#064E3B}
+.pb-dev{background:#C7D2FE;color:#3730A3}
+.pb-esp{background:#FDE68A;color:#78350F}
+.pb-tap{background:#FECACA;color:#7F1D1D}
+.prog-done{font-family:'DM Mono',monospace;font-size:12px;text-align:right;color:var(--muted)}
+.prog-done span{color:var(--text);font-weight:500}
+/* WEEK LIST */
+.week-item{display:grid;grid-template-columns:60px 1fr auto auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+.week-item:last-child{border-bottom:none}
+.week-item:hover{background:var(--bg);margin:0 -24px;padding:12px 24px}
+.week-num{font-family:'DM Mono',monospace;font-size:13px;color:var(--muted)}
+.week-info{}
+.week-name{font-size:14px;font-weight:500}
+.week-sub{font-size:12px;color:var(--muted);margin-top:1px}
+.week-km{font-family:'DM Mono',monospace;font-size:13px;color:var(--muted)}
+.badge{display:inline-block;font-size:11px;font-family:'DM Mono',monospace;padding:3px 8px;border-radius:4px;font-weight:500}
+.badge-done{background:#D1FAE5;color:#065F46}
+.badge-current{background:#FEF3C7;color:#92400E}
+.badge-pending{background:var(--bg);color:var(--muted)}
+/* LOG FORM */
+.form-row{margin-bottom:14px}
+.form-label{font-size:12px;font-family:'DM Mono',monospace;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;display:block;margin-bottom:6px}
+.form-input{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:14px;background:var(--bg);color:var(--text);outline:none;transition:border-color .15s}
+.form-input:focus{border-color:var(--accent)}
+textarea.form-input{resize:vertical;min-height:80px}
+select.form-input{cursor:pointer}
+.form-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.btn{padding:10px 20px;border-radius:6px;border:none;font-family:'DM Mono',monospace;font-size:13px;cursor:pointer;transition:all .15s;letter-spacing:.01em}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#1E5038}
+.btn-secondary{background:var(--bg);color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+/* LOG ENTRIES */
+.log-entry{padding:14px 0;border-bottom:1px solid var(--border)}
+.log-entry:last-child{border-bottom:none}
+.log-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:6px}
+.log-date{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)}
+.log-type{font-size:13px;font-weight:500}
+.log-meta{display:flex;gap:12px;font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:4px}
+.log-meta span{display:flex;align-items:center;gap:3px}
+.log-notes{font-size:13px;color:var(--muted);font-style:italic}
+.log-feeling{font-size:18px}
+.del-btn{background:none;border:none;color:var(--border);cursor:pointer;font-size:16px;padding:0 4px;transition:color .15s}
+.del-btn:hover{color:var(--danger)}
+/* CALENDAR */
+.cal-header{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px}
+.cal-dayname{text-align:center;font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);padding:4px 0;text-transform:uppercase}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-cell{min-height:64px;border-radius:6px;padding:6px;border:1px solid var(--border);background:var(--surface);font-size:12px;cursor:default;position:relative;transition:border-color .15s}
+.cal-cell.empty{background:transparent;border-color:transparent}
+.cal-cell.has-session{cursor:pointer}
+.cal-cell.has-session:hover{border-color:var(--accent)}
+.cal-cell.has-log{background:var(--accent-light);border-color:var(--accent-mid)}
+.cal-cell.today{border-color:var(--accent);border-width:2px}
+.cal-day-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:2px}
+.cal-session-dot{font-size:10px;line-height:1.3;color:var(--text)}
+.cal-month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.cal-month-title{font-family:'DM Mono',monospace;font-size:15px;font-weight:500}
+.cal-nav-btn{background:none;border:1px solid var(--border);border-radius:6px;padding:4px 12px;cursor:pointer;font-size:16px;color:var(--muted)}
+.cal-nav-btn:hover{border-color:var(--accent);color:var(--accent)}
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-state p{font-size:14px;margin-top:8px}
+/* PHASE LEGEND */
+.phase-legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.pl-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);font-family:'DM Mono',monospace}
+.pl-dot{width:10px;height:10px;border-radius:2px}
+/* CURRENT WEEK HIGHLIGHT */
+.current-week-card{background:var(--accent);color:#fff;border-radius:10px;padding:20px 24px;margin-bottom:20px}
+.cwc-label{font-family:'DM Mono',monospace;font-size:11px;opacity:.7;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.cwc-title{font-size:18px;font-weight:500;margin-bottom:4px}
+.cwc-sub{font-size:13px;opacity:.75}
+.cwc-sessions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+.cwc-session{background:rgba(255,255,255,.15);border-radius:6px;padding:6px 12px;font-size:12px;font-family:'DM Mono',monospace}
+.race-card{background:var(--text);color:#F7F5F0;border-radius:10px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.race-info h3{font-family:'DM Mono',monospace;font-size:13px;opacity:.5;font-weight:400;margin-bottom:4px}
+.race-info p{font-size:18px;font-weight:500}
+.countdown{text-align:right}
+.countdown-num{font-family:'DM Mono',monospace;font-size:36px;font-weight:300;color:var(--accent-mid);line-height:1}
+.countdown-lbl{font-size:12px;opacity:.5;margin-top:4px}
+/* NEXT ACTIVITY */
+.next-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 24px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.next-card-left{}
+.next-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.next-name{font-size:17px;font-weight:500;color:var(--text);margin-bottom:2px}
+.next-sub{font-size:13px;color:var(--muted)}
+.next-card-right{text-align:right;flex-shrink:0}
+.next-date-big{font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:var(--accent);white-space:nowrap}
+.next-days{font-size:12px;color:var(--muted);margin-top:2px}
+/* WEEK EXPAND */
+.week-detail{display:none;border-top:1px solid var(--border);padding:16px 24px;margin:0 -24px;background:var(--surface)}
+.week-detail.open{display:block}
+.wd-session{display:grid;grid-template-columns:36px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);align-items:start}
+.wd-session:last-child{border-bottom:none;padding-bottom:0}
+.wd-day{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);padding-top:2px;text-transform:uppercase}
+.wd-info{}
+.wd-name{font-size:13px;font-weight:500;color:var(--text)}
+.wd-detail{font-size:12px;color:var(--muted);margin-top:1px}
+.wd-desc{font-size:12px;color:var(--text);margin-top:5px;line-height:1.5;padding:6px 10px;background:var(--bg);border-radius:5px;border-left:2px solid var(--border)}
+.week-item{position:relative;border-bottom:1px solid var(--border)}
+.week-item:last-child{border-bottom:none}
+.week-item.is-open .week-item-inner{border-bottom:none}
+.week-item-inner{display:grid;grid-template-columns:52px 1fr auto auto auto;gap:10px;align-items:center;padding:13px 0;cursor:pointer;transition:background .1s;user-select:none}
+.week-item-inner:hover{background:var(--bg);margin:0 -24px;padding:13px 24px}
+.week-item.is-open .week-item-inner{background:var(--bg);margin:0 -24px;padding:13px 24px}
+.chevron-btn{width:24px;height:24px;border-radius:6px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;color:var(--muted);font-size:10px}
+.week-item.is-open .chevron-btn{background:var(--text);border-color:var(--text);color:#fff;transform:rotate(180deg)}
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>21K · PLAN DE ENTRENAMIENTO</h1>
+    <p>29 nov 2026 · Meta: sub 1:30:00 &nbsp;<span id="sync-status" style="font-size:11px;opacity:.8"></span></p>
+  </div>
+  <div class="header-right">
+    <div>
+      <div class="stat-h" id="hdr-weeks">—</div>
+      <div class="stat-l">semanas al inicio</div>
+    </div>
+    <div>
+      <div class="stat-h" id="hdr-done">0</div>
+      <div class="stat-l">sesiones registradas</div>
+    </div>
+    <div>
+      <div class="stat-h" id="hdr-km">0</div>
+      <div class="stat-l">km totales</div>
+    </div>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showTab('resumen')">Resumen</button>
+  <button class="nav-btn" onclick="showTab('registro')">Registrar</button>
+  <button class="nav-btn" onclick="showTab('historial')">Historial</button>
+  <button class="nav-btn" onclick="showTab('plan')">Plan completo</button>
+  <button class="nav-btn" onclick="showTab('calendario')">Calendario</button>
+  <button class="nav-btn" onclick="showTab('zonas')">Zonas</button>
+</nav>
+
+<div class="main">
+
+<!-- RESUMEN -->
+<div id="tab-resumen" class="panel active">
+  <div id="race-countdown" class="race-card">
+    <div class="race-info">
+      <h3>🏁 carrera objetivo</h3>
+      <p>21K · 29 de noviembre 2026</p>
+    </div>
+    <div class="countdown">
+      <div class="countdown-num" id="days-left">—</div>
+      <div class="countdown-lbl">días restantes</div>
+    </div>
+  </div>
+
+  <div id="current-week-card"></div>
+  <div id="next-activity-card"></div>
+
+  <div class="card">
+    <div class="card-title">Progreso del plan</div>
+    <div class="phase-legend">
+      <div class="pl-item"><div class="pl-dot" style="background:#A7F3D0"></div>Base (sem 1–8)</div>
+      <div class="pl-item"><div class="pl-dot" style="background:#C7D2FE"></div>Desarrollo (sem 9–17)</div>
+      <div class="pl-item"><div class="pl-dot" style="background:#FDE68A"></div>Específica (sem 18–23)</div>
+      <div class="pl-item"><div class="pl-dot" style="background:#FECACA"></div>Taper (sem 24–26)</div>
+    </div>
+    <div id="progress-bars"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Últimas sesiones registradas</div>
+    <div id="recent-logs"></div>
+  </div>
+</div>
+
+<!-- REGISTRAR -->
+<div id="tab-registro" class="panel">
+  <div class="card">
+    <div class="card-title">Nueva sesión</div>
+    <div class="form-row">
+      <label class="form-label">Fecha</label>
+      <input type="date" class="form-input" id="log-date" style="max-width:200px">
+    </div>
+    <div class="form-row">
+      <label class="form-label">Tipo de sesión</label>
+      <select class="form-input" id="log-type">
+        <option value="Rodaje suave">Rodaje suave (Z1–Z2)</option>
+        <option value="Rodaje largo">Tirada larga</option>
+        <option value="Series">Series</option>
+        <option value="Tempo">Tempo run</option>
+        <option value="Fartlek">Fartlek</option>
+        <option value="Regenerativo">Regenerativo</option>
+        <option value="Carrera">Carrera oficial</option>
+        <option value="Otro">Otro</option>
+      </select>
+    </div>
+    <div class="form-grid">
+      <div class="form-row">
+        <label class="form-label">Distancia (km)</label>
+        <input type="number" class="form-input" id="log-km" placeholder="12.5" step="0.1" min="0">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Tiempo (min)</label>
+        <input type="number" class="form-input" id="log-time" placeholder="60" step="1" min="0">
+      </div>
+      <div class="form-row">
+        <label class="form-label">Ritmo prom. (min/km)</label>
+        <input type="text" class="form-input" id="log-pace" placeholder="5:20" readonly>
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Sensación</label>
+      <div style="display:flex;gap:12px;margin-top:4px">
+        <label style="cursor:pointer;font-size:22px" title="Muy bien"><input type="radio" name="feeling" value="😄" style="display:none"> <span class="feel-opt" data-v="😄">😄</span></label>
+        <label style="cursor:pointer;font-size:22px" title="Bien"><input type="radio" name="feeling" value="🙂" style="display:none"> <span class="feel-opt" data-v="🙂">🙂</span></label>
+        <label style="cursor:pointer;font-size:22px" title="Regular"><input type="radio" name="feeling" value="😐" style="display:none"> <span class="feel-opt" data-v="😐">😐</span></label>
+        <label style="cursor:pointer;font-size:22px" title="Mal"><input type="radio" name="feeling" value="😓" style="display:none"> <span class="feel-opt" data-v="😓">😓</span></label>
+        <label style="cursor:pointer;font-size:22px" title="Muy mal"><input type="radio" name="feeling" value="💀" style="display:none"> <span class="feel-opt" data-v="💀">💀</span></label>
+      </div>
+    </div>
+    <div class="form-row">
+      <label class="form-label">Notas</label>
+      <textarea class="form-input" id="log-notes" placeholder="¿Cómo te sentiste? ¿Algo que destacar?"></textarea>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-primary" onclick="saveLog()">Guardar sesión</button>
+      <button class="btn btn-secondary" onclick="clearForm()">Limpiar</button>
+    </div>
+  </div>
+</div>
+
+<!-- HISTORIAL -->
+<div id="tab-historial" class="panel">
+  <div class="card">
+    <div class="card-title">Todas las sesiones</div>
+    <div id="all-logs"></div>
+  </div>
+</div>
+
+<!-- PLAN COMPLETO -->
+<div id="tab-plan" class="panel">
+  <div class="card">
+    <div class="card-title">26 semanas · 3 jun → 29 nov 2026</div>
+    <div id="plan-list"></div>
+  </div>
+</div>
+
+<!-- CALENDARIO -->
+<div id="tab-calendario" class="panel">
+  <div class="card">
+    <div class="cal-month-nav">
+      <button class="cal-nav-btn" onclick="changeMonth(-1)">←</button>
+      <div class="cal-month-title" id="cal-title"></div>
+      <button class="cal-nav-btn" onclick="changeMonth(1)">→</button>
+    </div>
+    <div class="cal-header">
+      <div class="cal-dayname">Lun</div>
+      <div class="cal-dayname">Mar</div>
+      <div class="cal-dayname">Mié</div>
+      <div class="cal-dayname">Jue</div>
+      <div class="cal-dayname">Vie</div>
+      <div class="cal-dayname">Sáb</div>
+      <div class="cal-dayname">Dom</div>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+</div>
+
+<!-- ZONAS -->
+<div id="tab-zonas" class="panel">
+
+  <div class="card">
+    <div class="card-title">Zonas de entrenamiento</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:20px">Tu FC máx estimada es <strong style="color:var(--text)">~185 ppm</strong> (220 − 35 años). Las zonas abajo se calculan en base a eso. Ajusta si conoces tu FC máx real.</p>
+
+    <div style="display:flex;flex-direction:column;gap:10px" id="zone-cards">
+
+      <div class="zone-row" style="display:grid;grid-template-columns:14px 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg)">
+        <div style="width:14px;height:14px;border-radius:3px;background:#A7F3D0;margin-top:3px;flex-shrink:0"></div>
+        <div>
+          <div style="font-size:14px;font-weight:500;margin-bottom:2px">Z1 — Recuperación activa</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Trote muy suave. Puedes hablar en oraciones largas sin perder el aliento.</div>
+          <div style="font-size:12px;color:var(--muted)">Uso: rodajes regenerativos, calentamiento, enfriamiento. <span style="color:var(--text)">No entrena, recupera.</span></div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:500">50–60% FC</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">93–111 ppm</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-top:2px">&gt; 5:50 min/km</div>
+        </div>
+      </div>
+
+      <div class="zone-row" style="display:grid;grid-template-columns:14px 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg)">
+        <div style="width:14px;height:14px;border-radius:3px;background:#6EE7B7;margin-top:3px;flex-shrink:0"></div>
+        <div>
+          <div style="font-size:14px;font-weight:500;margin-bottom:2px">Z2 — Aeróbico base</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:6px">El pan y mantequilla del plan. Esfuerzo conversacional: puedes hablar en frases cortas pero no cantar.</div>
+          <div style="font-size:12px;color:var(--muted)">Uso: la mayoría de los rodajes suaves y tiradas largas. <span style="color:var(--text)">Construye el motor aeróbico.</span></div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:500">60–70% FC</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">111–130 ppm</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-top:2px">5:16–5:46 min/km</div>
+        </div>
+      </div>
+
+      <div class="zone-row" style="display:grid;grid-template-columns:14px 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg)">
+        <div style="width:14px;height:14px;border-radius:3px;background:#FDE68A;margin-top:3px;flex-shrink:0"></div>
+        <div>
+          <div style="font-size:14px;font-weight:500;margin-bottom:2px">Tempo — Umbral láctico</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:6px">"Comfortably hard". Puedes decir palabras sueltas, no oraciones. Se empieza a acumular lactato pero el cuerpo aún lo procesa.</div>
+          <div style="font-size:12px;color:var(--muted)">Uso: tempo runs de 20–40 min. <span style="color:var(--text)">Eleva el umbral, mejora la resistencia al ritmo.</span></div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:500">80–87% FC</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">148–161 ppm</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-top:2px">4:20–4:30 min/km</div>
+        </div>
+      </div>
+
+      <div class="zone-row" style="display:grid;grid-template-columns:14px 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg)">
+        <div style="width:14px;height:14px;border-radius:3px;background:#FCA5A5;margin-top:3px;flex-shrink:0"></div>
+        <div>
+          <div style="font-size:14px;font-weight:500;margin-bottom:2px">Z4 — Series / Ritmo meta</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Difícil pero controlado. El ritmo objetivo de la carrera (4:16/km) vive acá. Hablar es imposible.</div>
+          <div style="font-size:12px;color:var(--muted)">Uso: series de 1000m y 2000m, último tramo de tiradas largas. <span style="color:var(--text)">Enseña al cuerpo el ritmo de competencia.</span></div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:500">87–93% FC</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">161–172 ppm</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-top:2px">4:05–4:16 min/km</div>
+        </div>
+      </div>
+
+      <div class="zone-row" style="display:grid;grid-template-columns:14px 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg)">
+        <div style="width:14px;height:14px;border-radius:3px;background:#F87171;margin-top:3px;flex-shrink:0"></div>
+        <div>
+          <div style="font-size:14px;font-weight:500;margin-bottom:2px">Z5 — VO₂ máx</div>
+          <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Máximo esfuerzo sostenible por 3–8 minutos. Solo se usa en esfuerzos muy cortos y en carrera de test.</div>
+          <div style="font-size:12px;color:var(--muted)">Uso: final de series cortas (últimos 200m), sprint final en carrera. <span style="color:var(--text)">Este plan lo usa poco — la meta 21K no lo requiere.</span></div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-family:'DM Mono',monospace;font-size:13px;font-weight:500">&gt; 93% FC</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted)">&gt; 172 ppm</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-top:2px">&lt; 4:05 min/km</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Ritmos de referencia · meta sub 1:30</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:10px 14px;border-radius:7px;background:var(--accent);color:#fff">
+        <div>
+          <div style="font-size:13px;font-weight:500">Ritmo meta 21K</div>
+          <div style="font-size:12px;opacity:.75">Para terminar en 1:29:57</div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:18px;font-weight:500">4:16 min/km</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:10px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg)">
+        <div>
+          <div style="font-size:13px;font-weight:500">Series (Z4)</div>
+          <div style="font-size:12px;color:var(--muted)">Más rápido que la meta para crear margen</div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:500">4:05–4:10</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:10px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg)">
+        <div>
+          <div style="font-size:13px;font-weight:500">Tempo run</div>
+          <div style="font-size:12px;color:var(--muted)">Umbral láctico, ritmo sostenido</div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:500">4:20–4:30</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:10px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg)">
+        <div>
+          <div style="font-size:13px;font-weight:500">Rodaje Z2</div>
+          <div style="font-size:12px;color:var(--muted)">La mayoría de los entrenamientos</div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:500">5:10–5:30</div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:10px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg)">
+        <div>
+          <div style="font-size:13px;font-weight:500">Rodaje Z1</div>
+          <div style="font-size:12px;color:var(--muted)">Regenerativo, días suaves</div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:500">5:45–6:10</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Regla 80/20</div>
+    <div style="display:flex;gap:0;border-radius:8px;overflow:hidden;height:36px;margin-bottom:12px;border:1px solid var(--border)">
+      <div style="width:80%;background:#6EE7B7;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:#064E3B">80% suave (Z1–Z2)</div>
+      <div style="width:20%;background:#FCA5A5;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:13px;font-weight:500;color:#7F1D1D">20% duro</div>
+    </div>
+    <p style="font-size:13px;color:var(--muted);line-height:1.6">El 80% del kilometraje semanal va en Z1–Z2. Solo el 20% es trabajo de calidad (series, tempo, ritmo meta). <strong style="color:var(--text)">Ir demasiado rápido en los días fáciles es el error más común</strong> y la causa principal de lesiones y sobreentrenamiento.</p>
+  </div>
+
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+const RACE_DATE = new Date('2026-11-29');
+const PLAN_START = new Date('2026-06-03');
+
+const PHASES = [
+  {name:'Base',color:'pb-base',weeks:8},
+  {name:'Desarrollo',color:'pb-dev',weeks:9},
+  {name:'Específica',color:'pb-esp',weeks:6},
+  {name:'Taper',color:'pb-tap',weeks:3}
+];
+
+const WEEK_KMS = [30,32,35,38,40,35,43,30, 45,48,52,44,56,58,55,48,62, 58,62,60,65,55,58, 45,32,21];
+
+const SESSION_TYPES = {
+  1:{day:'Mar',name:'Rodaje suave',detail:'40–55 min Z2'},
+  2:{day:'Mié',name:'Fartlek suave',detail:'30 min con 6×1\' a ritmo 21K'},
+  3:{day:'Vie',name:'Rodaje suave',detail:'35–45 min Z2'},
+  4:{day:'Sáb',name:'Tirada larga',detail:'60–90 min Z1–Z2'}
+};
+
+const DEV_SESSIONS = {
+  1:{day:'Mar',name:'Series',detail:'6–8×1000m a 4:10/km'},
+  2:{day:'Jue',name:'Tempo run',detail:'20–30 min a 4:25/km'},
+  3:{day:'Vie',name:'Rodaje suave',detail:'40–50 min Z2'},
+  4:{day:'Sáb',name:'Tirada larga',detail:'90–110 min Z2'}
+};
+
+const ESP_SESSIONS = {
+  1:{day:'Mar',name:'Series largas',detail:'4–5×2000m a 4:10/km'},
+  2:{day:'Jue',name:'Tempo 40 min',detail:'a 4:20–4:25/km'},
+  3:{day:'Vie',name:'Suave',detail:'35 min Z2'},
+  4:{day:'Sáb',name:'Tirada larga',detail:'90–100 min con 30–40\' a ritmo meta'}
+};
+
+const TAP_SESSIONS = {
+  1:{day:'Mar',name:'Series cortas',detail:'4×1000m a ritmo meta'},
+  2:{day:'Jue',name:'Strides',detail:'15 min + 6×100m'},
+  3:{day:'Sáb',name:'Activación',detail:'15 min + strides'},
+  4:{day:'Dom',name:'🏁 CARRERA','detail':'21K sub 1:30!'}
+};
+
+function getPhaseForWeek(w){
+  if(w<=8)return 0;
+  if(w<=17)return 1;
+  if(w<=23)return 2;
+  return 3;
+}
+
+function getWeekSessions(w){
+  const ph=getPhaseForWeek(w);
+  if(ph===0)return SESSION_TYPES;
+  if(ph===1)return DEV_SESSIONS;
+  if(ph===2)return ESP_SESSIONS;
+  return TAP_SESSIONS;
+}
+
+function weekStart(w){
+  const d=new Date(PLAN_START);
+  d.setDate(d.getDate()+(w-1)*7);
+  return d;
+}
+
+function currentWeek(){
+  const now=new Date();
+  const diff=Math.floor((now-PLAN_START)/(7*24*3600*1000))+1;
+  return Math.max(1,Math.min(26,diff));
+}
+
+function fmtDate(d){
+  return d.toLocaleDateString('es-CL',{day:'numeric',month:'short'});
+}
+
+function fmtDateShort(d){
+  return d.toLocaleDateString('es-CL',{day:'2-digit',month:'2-digit'});
+}
+
+function phaseOfWeek(w){
+  const ph=getPhaseForWeek(w);
+  return ['Base aeróbica','Desarrollo','Específica','Taper'][ph];
+}
+
+// ─── SHEETS CONFIG ───────────────────────────────────────────────────────────
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbxJmMsOUNvh33yCCRbGxhJAxvC5NkSfK36FVuTMqbvUq4xfJK6MoQTT7V21sbnNR7xU6A/exec';
+let _logs=null; // in-memory cache
+
+function setStatus(msg,isErr){
+  let el=document.getElementById('sync-status');
+  if(!el)return;
+  el.textContent=msg;
+  el.style.color=isErr?'var(--danger)':'var(--accent)';
+  if(!isErr&&msg)setTimeout(()=>{if(el.textContent===msg)el.textContent=''},3000);
+}
+
+async function fetchLogs(){
+  setStatus('Sincronizando…');
+  try{
+    const r=await fetch(SCRIPT_URL+'?t='+Date.now());
+    const data=await r.json();
+    _logs=Array.isArray(data)?data.filter(r=>r.id).map(r=>({
+      id:Number(r.id),date:String(r.date),type:String(r.type),
+      km:Number(r.km)||0,time:Number(r.time)||0,pace:String(r.pace||''),
+      feeling:String(r.feeling||'🙂'),notes:String(r.notes||'')
+    })).sort((a,b)=>b.id-a.id):[];
+    setStatus('');
+    return _logs;
+  }catch(e){
+    setStatus('Sin conexión — mostrando datos locales',true);
+    _logs=JSON.parse(localStorage.getItem('logs_21k')||'[]');
+    return _logs;
+  }
+}
+
+function getLogs(){
+  if(_logs!==null)return _logs;
+  return JSON.parse(localStorage.getItem('logs_21k')||'[]');
+}
+
+async function pushLog(log){
+  _logs=(_logs||[]);
+  _logs.unshift(log);
+  localStorage.setItem('logs_21k',JSON.stringify(_logs));
+  try{
+    await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'add',...log})});
+    setStatus('Guardado en Sheets ✓');
+  }catch(e){setStatus('Guardado local (sin internet)',true);}
+}
+
+async function removeLog(id){
+  _logs=(_logs||getLogs()).filter(l=>l.id!==id);
+  localStorage.setItem('logs_21k',JSON.stringify(_logs));
+  try{
+    await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'delete',id})});
+    setStatus('Eliminado ✓');
+  }catch(e){setStatus('Eliminado local (sin internet)',true);}
+}
+
+// ─── FEELING ─────────────────────────────────────────────────────────────────
+let selectedFeeling='🙂';
+document.querySelectorAll('.feel-opt').forEach(el=>{
+  el.style.opacity='.4';el.style.transition='all .15s';el.style.cursor='pointer';
+  el.addEventListener('click',()=>{
+    selectedFeeling=el.dataset.v;
+    document.querySelectorAll('.feel-opt').forEach(e=>e.style.opacity='.4');
+    el.style.opacity='1';el.style.transform='scale(1.25)';
+    setTimeout(()=>el.style.transform='scale(1)',150);
+  });
+});
+
+// ─── AUTO PACE ───────────────────────────────────────────────────────────────
+['log-km','log-time'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',()=>{
+    const km=parseFloat(document.getElementById('log-km').value);
+    const min=parseFloat(document.getElementById('log-time').value);
+    if(km>0&&min>0){
+      const paceMin=Math.floor(min/km);
+      const paceSec=Math.round((min/km-paceMin)*60);
+      document.getElementById('log-pace').value=`${paceMin}:${String(paceSec).padStart(2,'0')}`;
+    }else{document.getElementById('log-pace').value=''}
+  });
+});
+
+// ─── SAVE LOG ────────────────────────────────────────────────────────────────
+async function saveLog(){
+  const date=document.getElementById('log-date').value;
+  const type=document.getElementById('log-type').value;
+  const km=parseFloat(document.getElementById('log-km').value)||0;
+  const time=parseFloat(document.getElementById('log-time').value)||0;
+  const pace=document.getElementById('log-pace').value;
+  const notes=document.getElementById('log-notes').value.trim();
+  if(!date){alert('Selecciona una fecha');return}
+  const log={id:Date.now(),date,type,km,time,pace,feeling:selectedFeeling,notes};
+  const btn=document.querySelector('button.btn-primary');
+  btn.textContent='Guardando…';btn.disabled=true;
+  await pushLog(log);
+  btn.textContent='Guardar sesión';btn.disabled=false;
+  clearForm();
+  showTab('historial');
+  render();
+}
+
+async function deleteLog(id){
+  if(!confirm('¿Eliminar esta sesión?'))return;
+  await removeLog(id);
+  render();
+}
+
+function clearForm(){
+  document.getElementById('log-date').value=new Date().toISOString().slice(0,10);
+  document.getElementById('log-type').value='Rodaje suave';
+  document.getElementById('log-km').value='';
+  document.getElementById('log-time').value='';
+  document.getElementById('log-pace').value='';
+  document.getElementById('log-notes').value='';
+  selectedFeeling='🙂';
+  document.querySelectorAll('.feel-opt').forEach(e=>{e.style.opacity='.4'});
+}
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+function renderHeader(){
+  const logs=getLogs();
+  const totalKm=logs.reduce((a,l)=>a+l.km,0);
+  const now=new Date();
+  const days=Math.ceil((RACE_DATE-now)/(24*3600*1000));
+  document.getElementById('days-left').textContent=days>0?days:'¡Hoy!';
+  document.getElementById('hdr-weeks').textContent=currentWeek();
+  document.getElementById('hdr-done').textContent=logs.length;
+  document.getElementById('hdr-km').textContent=totalKm.toFixed(1);
+}
+
+function renderCurrentWeek(){
+  const cw=currentWeek();
+  const ph=getPhaseForWeek(cw);
+  const phName=['Base aeróbica','Desarrollo','Específica','Taper'][ph];
+  const ws=weekStart(cw);
+  const we=new Date(ws);we.setDate(we.getDate()+6);
+  const sessions=getWeekSessions(cw);
+  const el=document.getElementById('current-week-card');
+  el.innerHTML=`<div class="current-week-card">
+    <div class="cwc-label">Semana actual · ${fmtDate(ws)} – ${fmtDate(we)}</div>
+    <div class="cwc-title">Semana ${cw} · ${phName}</div>
+    <div class="cwc-sub">${WEEK_KMS[cw-1]} km planificados</div>
+    <div class="cwc-sessions">${Object.values(sessions).map(s=>`<div class="cwc-session">${s.day}: ${s.name}</div>`).join('')}</div>
+  </div>`;
+}
+
+function renderProgress(){
+  const cw=currentWeek();
+  const el=document.getElementById('progress-bars');
+  el.innerHTML='';
+  let weekNum=1;
+  PHASES.forEach((ph,pi)=>{
+    const colors=['pb-base','pb-dev','pb-esp','pb-tap'];
+    const row=document.createElement('div');
+    row.className='prog-row';
+    const done=Math.min(ph.weeks,Math.max(0,cw-weekNum));
+    const pct=Math.round(done/ph.weeks*100);
+    row.innerHTML=`<div class="prog-label">${ph.name}</div>
+      <div class="prog-bar-bg"><div class="prog-bar ${colors[pi]}" style="width:${pct}%">${pct>15?pct+'%':''}</div></div>
+      <div class="prog-done"><span>${done}</span>/${ph.weeks} sem</div>`;
+    el.appendChild(row);
+    weekNum+=ph.weeks;
+  });
+}
+
+function logEntryHTML(l,limit=false){
+  const d=new Date(l.date+'T12:00:00');
+  return `<div class="log-entry">
+    <div class="log-top">
+      <div>
+        <div class="log-date">${d.toLocaleDateString('es-CL',{weekday:'long',day:'numeric',month:'long'})}</div>
+        <div class="log-type">${l.feeling} ${l.type}</div>
+      </div>
+      ${!limit?`<button class="del-btn" onclick="deleteLog(${l.id})" title="Eliminar">×</button>`:''}
+    </div>
+    <div class="log-meta">
+      ${l.km?`<span>📍 ${l.km} km</span>`:''}
+      ${l.time?`<span>⏱ ${l.time} min</span>`:''}
+      ${l.pace?`<span>⚡ ${l.pace} min/km</span>`:''}
+    </div>
+    ${l.notes?`<div class="log-notes">${l.notes}</div>`:''}
+  </div>`;
+}
+
+function renderRecentLogs(){
+  const logs=getLogs();
+  const el=document.getElementById('recent-logs');
+  if(!logs.length){el.innerHTML=`<div class="empty-state"><div style="font-size:32px">📋</div><p>Aún no has registrado sesiones.<br>¡Empieza con la primera!</p></div>`;return}
+  el.innerHTML=logs.slice(0,5).map(l=>logEntryHTML(l,true)).join('');
+}
+
+function renderAllLogs(){
+  const logs=getLogs();
+  const el=document.getElementById('all-logs');
+  if(!logs.length){el.innerHTML=`<div class="empty-state"><div style="font-size:32px">📋</div><p>Sin sesiones aún.</p></div>`;return}
+  el.innerHTML=logs.map(l=>logEntryHTML(l)).join('');
+}
+
+function buildPlanMap(){
+  const planMap={};
+  for(let w=1;w<=26;w++){
+    const ws=weekStart(w);
+    const sessions=getWeekSessions(w);
+    Object.values(sessions).forEach((s)=>{
+      const offsets={'Lun':0,'Mar':1,'Mié':2,'Jue':3,'Vie':4,'Sáb':5,'Dom':6};
+      const off=offsets[s.day]||0;
+      const d=new Date(ws);d.setDate(d.getDate()+off);
+      const key=d.toISOString().slice(0,10);
+      if(!planMap[key])planMap[key]=[];
+      planMap[key].push({...s,week:w});
+    });
+  }
+  return planMap;
+}
+
+function renderNextActivity(){
+  const el=document.getElementById('next-activity-card');
+  if(!el)return;
+  const today=new Date().toISOString().slice(0,10);
+  const planMap=buildPlanMap();
+  const futureDates=Object.keys(planMap).filter(d=>d>=today).sort();
+  if(!futureDates.length){el.innerHTML='';return}
+  const nextDate=futureDates[0];
+  const sessions=planMap[nextDate];
+  const s=sessions[0];
+  const d=new Date(nextDate+'T12:00:00');
+  const diffDays=Math.round((d-new Date(today+'T12:00:00'))/(24*3600*1000));
+  const diffTxt=diffDays===0?'Hoy':diffDays===1?'Mañana':`En ${diffDays} días`;
+  const dayName=d.toLocaleDateString('es-CL',{weekday:'long',day:'numeric',month:'long'});
+  el.innerHTML=`<div class="next-card">
+    <div class="next-card-left">
+      <div class="next-label">Próxima actividad</div>
+      <div class="next-name">${s.name}</div>
+      <div class="next-sub">${s.detail} · Sem ${s.week}</div>
+    </div>
+    <div class="next-card-right">
+      <div class="next-date-big">${diffTxt}</div>
+      <div class="next-days">${dayName}</div>
+    </div>
+  </div>`;
+}
+
+function renderPlan(){
+  const cw=currentWeek();
+  const el=document.getElementById('plan-list');
+  el.innerHTML='';
+  const phBadge=['Base','Desarrollo','Específica','Taper'];
+  const SESSION_DESCRIPTIONS={
+    'Rodaje suave':'Trote continuo en zona aeróbica baja. Conversación fluida en todo momento. El ritmo debe sentirse genuinamente fácil.',
+    'Tirada larga':'La sesión reina de la semana. Mantén Z1–Z2 durante toda la duración. En fases avanzadas, los últimos 20–30 min a ritmo meta (4:16/km).',
+    'Fartlek suave':'Rodaje continuo con 6 aceleraciones de 1 minuto a ritmo 21K intercaladas. Sin pausa entre las aceleraciones, solo regresa al trote.',
+    'Series':'Repeticiones a ritmo más rápido que la meta con recuperación activa. Clave: mantener el ritmo constante en cada repetición aunque las últimas cuesten.',
+    'Tempo run':'Trote sostenido a esfuerzo "comfortably hard". Puedes decir frases cortas, pero no mantener una conversación. Fortalece el umbral láctico.',
+    'Regenerativo':'Trote muy suave para activar la circulación y acelerar la recuperación. No deberías sentirte cansado al terminar.',
+    'Series largas':'Repeticiones de 2km a ritmo ligeramente más rápido que la meta. Simulan el esfuerzo de carrera con mayor especificidad metabólica.',
+    'Tempo 40 min':'Bloque de 40 minutos a ritmo 4:20–4:25/km. Uno de los más exigentes del plan. Calienta 15 min antes, enfría 10 min después.',
+    'Suave':'Trote fácil de recuperación. Prioriza la sensación sobre el reloj.',
+    'Activación':'Sesión muy corta el día previo a la carrera. Solo para mover las piernas y mantener el ritmo neuromotor. No generes ninguna fatiga.',
+    'Strides':'Aceleraciones de 80–100m a ritmo de 5K con recuperación completa. Mejoran la economía de carrera y la velocidad de zancada.',
+    '🏁 CARRERA':'¡El gran día! Sal conservador los primeros 5K (4:22–4:25/km). Segunda mitad más rápida que la primera. Confía en el proceso.'
+  };
+  for(let w=1;w<=26;w++){
+    const ph=getPhaseForWeek(w);
+    const ws=weekStart(w);
+    const we=new Date(ws);we.setDate(we.getDate()+6);
+    const isRecovery=[4,8,11,15].includes(w);
+    const isCurrent=w===cw;
+    const isDone=w<cw;
+    const sessions=Object.values(getWeekSessions(w));
+    const badgeCls=isCurrent?'badge-current':isDone?'badge-done':'badge-pending';
+    const badgeTxt=isCurrent?'Esta semana':isDone?'Completada':'Pendiente';
+    const detailId=`wd-${w}`;
+    const arrowId=`arr-${w}`; // chevron id
+    const sessionsDetail=sessions.map(s=>{
+      const desc=SESSION_DESCRIPTIONS[s.name]||s.detail;
+      return `<div class="wd-session">
+        <div class="wd-day">${s.day}</div>
+        <div class="wd-info">
+          <div class="wd-name">${s.name}</div>
+          <div class="wd-detail">${s.detail}</div>
+          <div class="wd-desc">${desc}</div>
+        </div>
+      </div>`;
+    }).join('');
+    const item=document.createElement('div');
+    item.className='week-item';
+    // border handled by .week-item CSS
+    item.innerHTML=`
+      <div class="week-item-inner" onclick="toggleWeek(${w})">
+        <div class="week-num">Sem ${w}</div>
+        <div class="week-info">
+          <div class="week-name">${phBadge[ph]}${isRecovery?' · 🔄':''}${isCurrent?' · <span style="font-size:11px;color:var(--accent);font-weight:500">semana actual</span>':''}  </div>
+          <div class="week-sub">${fmtDate(ws)} – ${fmtDate(we)}</div>
+        </div>
+        <div class="week-km">${WEEK_KMS[w-1]} km</div>
+        <div><span class="badge ${badgeCls}">${badgeTxt}</span></div>
+        <div class="chevron-btn" id="${arrowId}" aria-label="Ver detalle">▼</div>
+      </div>
+      <div class="week-detail" id="${detailId}">${sessionsDetail}</div>`;
+    el.appendChild(item);
+  }
+}
+
+function toggleWeek(w){
+  const detail=document.getElementById(`wd-${w}`);
+  const chevron=document.getElementById(`arr-${w}`);
+  const item=chevron.closest('.week-item');
+  const isOpen=detail.classList.contains('open');
+  detail.classList.toggle('open',!isOpen);
+  item.classList.toggle('is-open',!isOpen);
+}
+
+// ─── CALENDAR ────────────────────────────────────────────────────────────────
+let calYear=new Date().getFullYear();
+let calMonth=new Date().getMonth();
+
+function renderCalendar(){
+  const months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  document.getElementById('cal-title').textContent=`${months[calMonth]} ${calYear}`;
+  const grid=document.getElementById('cal-grid');
+  grid.innerHTML='';
+  const logs=getLogs();
+  const logMap={};
+  logs.forEach(l=>{logMap[l.date]=(logMap[l.date]||[]); logMap[l.date].push(l);});
+
+  // build plan date map
+  const planMapRaw=buildPlanMap();
+  const planMap={};
+  Object.keys(planMapRaw).forEach(k=>{planMap[k]=planMapRaw[k].map(s=>s.name);});
+
+  const firstDay=new Date(calYear,calMonth,1);
+  let startDow=firstDay.getDay();
+  startDow=startDow===0?6:startDow-1; // Mon=0
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const today=new Date().toISOString().slice(0,10);
+
+  for(let i=0;i<startDow;i++){
+    const c=document.createElement('div');c.className='cal-cell empty';grid.appendChild(c);
+  }
+  for(let d=1;d<=daysInMonth;d++){
+    const dateStr=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const hasLog=!!logMap[dateStr];
+    const hasPlan=!!planMap[dateStr];
+    const isToday=dateStr===today;
+    const c=document.createElement('div');
+    c.className=`cal-cell${hasPlan?' has-session':''}${hasLog?' has-log':''}${isToday?' today':''}`;
+    let inner=`<div class="cal-day-num">${d}</div>`;
+    if(hasPlan&&!hasLog){inner+=`<div class="cal-session-dot">${planMap[dateStr][0]}</div>`;}
+    if(hasLog){inner+=`<div class="cal-session-dot">${logMap[dateStr][0].feeling} ${logMap[dateStr][0].type}</div>`;}
+    c.innerHTML=inner;
+    grid.appendChild(c);
+  }
+}
+
+function changeMonth(dir){
+  calMonth+=dir;
+  if(calMonth>11){calMonth=0;calYear++}
+  if(calMonth<0){calMonth=11;calYear--}
+  renderCalendar();
+}
+
+// ─── TAB NAV ─────────────────────────────────────────────────────────────────
+function showTab(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  event.target.classList.add('active');
+  if(id==='historial')renderAllLogs();
+  if(id==='plan')renderPlan();
+  if(id==='calendario')renderCalendar();
+}
+
+function render(){
+  renderHeader();
+  renderCurrentWeek();
+  renderNextActivity();
+  renderProgress();
+  renderRecentLogs();
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+document.getElementById('log-date').value=new Date().toISOString().slice(0,10);
+render(); // render with local cache first
+fetchLogs().then(()=>render()); // then refresh from Sheets
+</script>
+</body>
+</html>
