@@ -188,7 +188,7 @@ select.form-input{cursor:pointer}
 </style>
 </head>
 <body>
- 
+
 <div class="header">
   <div class="header-left">
     <h1>21K · PLAN DE ENTRENAMIENTO</h1>
@@ -209,7 +209,7 @@ select.form-input{cursor:pointer}
     </div>
   </div>
 </div>
- 
+
 <nav class="nav">
   <button class="nav-btn active" onclick="showTab('resumen')">Resumen</button>
   <button class="nav-btn" onclick="showTab('registro')">Registrar</button>
@@ -218,9 +218,9 @@ select.form-input{cursor:pointer}
   <button class="nav-btn" onclick="showTab('calendario')">Calendario</button>
   <button class="nav-btn" onclick="showTab('zonas')">Zonas</button>
 </nav>
- 
+
 <div class="main">
- 
+
 <!-- RESUMEN -->
 <div id="tab-resumen" class="panel active">
   <div id="race-countdown" class="race-card">
@@ -233,10 +233,10 @@ select.form-input{cursor:pointer}
       <div class="countdown-lbl">días restantes</div>
     </div>
   </div>
- 
+
   <div id="current-week-card"></div>
   <div id="next-activity-card"></div>
- 
+
   <div class="card">
     <div class="card-title">Progreso del plan</div>
     <div class="phase-legend">
@@ -247,13 +247,13 @@ select.form-input{cursor:pointer}
     </div>
     <div id="progress-bars"></div>
   </div>
- 
+
   <div class="card">
     <div class="card-title">Últimas sesiones registradas</div>
     <div id="recent-logs"></div>
   </div>
 </div>
- 
+
 <!-- REGISTRAR -->
 <div id="tab-registro" class="panel">
   <div class="card">
@@ -309,7 +309,7 @@ select.form-input{cursor:pointer}
     </div>
   </div>
 </div>
- 
+
 <!-- HISTORIAL -->
 <div id="tab-historial" class="panel">
   <div class="card">
@@ -317,7 +317,7 @@ select.form-input{cursor:pointer}
     <div id="all-logs"></div>
   </div>
 </div>
- 
+
 <!-- PLAN COMPLETO -->
 <div id="tab-plan" class="panel">
   <div class="card">
@@ -325,7 +325,7 @@ select.form-input{cursor:pointer}
     <div id="plan-list"></div>
   </div>
 </div>
- 
+
 <!-- CALENDARIO -->
 <div id="tab-calendario" class="panel">
   <div class="card">
@@ -346,16 +346,16 @@ select.form-input{cursor:pointer}
     <div class="cal-grid" id="cal-grid"></div>
   </div>
 </div>
- 
+
 <!-- ZONAS -->
 <div id="tab-zonas" class="panel">
- 
+
   <div class="card">
     <div class="card-title">Zonas de entrenamiento</div>
     <p style="font-size:13px;color:var(--muted);margin-bottom:20px">Tu FC máx estimada es <strong style="color:var(--text)">~185 ppm</strong> (220 − 35 años). Las zonas abajo se calculan en base a eso. Ajusta si conoces tu FC máx real.</p>
- 
+
     <div style="display:flex;flex-direction:column;gap:10px" id="zone-cards">
- 
+
       <div class="zone-row" style="display:grid;grid-template-columns:14px 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg)">
         <div style="width:14px;height:14px;border-radius:3px;background:#A7F3D0;margin-top:3px;flex-shrink:0"></div>
         <div>
@@ -369,7 +369,7 @@ select.form-input{cursor:pointer}
           <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-top:2px">&gt; 5:50 min/km</div>
         </div>
       </div>
- 
+
       <div class="zone-row" style="display:grid;grid-template-columns:14px 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg)">
         <div style="width:14px;height:14px;border-radius:3px;background:#6EE7B7;margin-top:3px;flex-shrink:0"></div>
         <div>
@@ -383,7 +383,7 @@ select.form-input{cursor:pointer}
           <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-top:2px">5:16–5:46 min/km</div>
         </div>
       </div>
- 
+
       <div class="zone-row" style="display:grid;grid-template-columns:14px 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg)">
         <div style="width:14px;height:14px;border-radius:3px;background:#FDE68A;margin-top:3px;flex-shrink:0"></div>
         <div>
@@ -397,7 +397,7 @@ select.form-input{cursor:pointer}
           <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-top:2px">4:20–4:30 min/km</div>
         </div>
       </div>
- 
+
       <div class="zone-row" style="display:grid;grid-template-columns:14px 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg)">
         <div style="width:14px;height:14px;border-radius:3px;background:#FCA5A5;margin-top:3px;flex-shrink:0"></div>
         <div>
@@ -411,7 +411,7 @@ select.form-input{cursor:pointer}
           <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-top:2px">4:05–4:16 min/km</div>
         </div>
       </div>
- 
+
       <div class="zone-row" style="display:grid;grid-template-columns:14px 1fr auto;gap:14px;align-items:start;padding:14px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg)">
         <div style="width:14px;height:14px;border-radius:3px;background:#F87171;margin-top:3px;flex-shrink:0"></div>
         <div>
@@ -425,14 +425,14 @@ select.form-input{cursor:pointer}
           <div style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-top:2px">&lt; 4:05 min/km</div>
         </div>
       </div>
- 
+
     </div>
   </div>
- 
+
   <div class="card">
     <div class="card-title">Ritmos de referencia · meta sub 1:30</div>
     <div style="display:flex;flex-direction:column;gap:8px">
- 
+
       <div style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:10px 14px;border-radius:7px;background:var(--accent);color:#fff">
         <div>
           <div style="font-size:13px;font-weight:500">Ritmo meta 21K</div>
@@ -440,7 +440,7 @@ select.form-input{cursor:pointer}
         </div>
         <div style="font-family:'DM Mono',monospace;font-size:18px;font-weight:500">4:16 min/km</div>
       </div>
- 
+
       <div style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:10px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg)">
         <div>
           <div style="font-size:13px;font-weight:500">Series (Z4)</div>
@@ -448,7 +448,7 @@ select.form-input{cursor:pointer}
         </div>
         <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:500">4:05–4:10</div>
       </div>
- 
+
       <div style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:10px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg)">
         <div>
           <div style="font-size:13px;font-weight:500">Tempo run</div>
@@ -456,7 +456,7 @@ select.form-input{cursor:pointer}
         </div>
         <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:500">4:20–4:30</div>
       </div>
- 
+
       <div style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:10px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg)">
         <div>
           <div style="font-size:13px;font-weight:500">Rodaje Z2</div>
@@ -464,7 +464,7 @@ select.form-input{cursor:pointer}
         </div>
         <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:500">5:10–5:30</div>
       </div>
- 
+
       <div style="display:grid;grid-template-columns:1fr auto;align-items:center;padding:10px 14px;border-radius:7px;border:1px solid var(--border);background:var(--bg)">
         <div>
           <div style="font-size:13px;font-weight:500">Rodaje Z1</div>
@@ -472,10 +472,10 @@ select.form-input{cursor:pointer}
         </div>
         <div style="font-family:'DM Mono',monospace;font-size:15px;font-weight:500">5:45–6:10</div>
       </div>
- 
+
     </div>
   </div>
- 
+
   <div class="card">
     <div class="card-title">Regla 80/20</div>
     <div style="display:flex;gap:0;border-radius:8px;overflow:hidden;height:36px;margin-bottom:12px;border:1px solid var(--border)">
@@ -484,60 +484,60 @@ select.form-input{cursor:pointer}
     </div>
     <p style="font-size:13px;color:var(--muted);line-height:1.6">El 80% del kilometraje semanal va en Z1–Z2. Solo el 20% es trabajo de calidad (series, tempo, ritmo meta). <strong style="color:var(--text)">Ir demasiado rápido en los días fáciles es el error más común</strong> y la causa principal de lesiones y sobreentrenamiento.</p>
   </div>
- 
+
 </div>
- 
+
 </div><!-- /main -->
- 
+
 <script>
 // ─── DATA ───────────────────────────────────────────────────────────────────
 const RACE_DATE = new Date('2026-11-29');
 const PLAN_START = new Date('2026-06-03');
- 
+
 const PHASES = [
   {name:'Base',color:'pb-base',weeks:8},
   {name:'Desarrollo',color:'pb-dev',weeks:9},
   {name:'Específica',color:'pb-esp',weeks:6},
   {name:'Taper',color:'pb-tap',weeks:3}
 ];
- 
+
 const WEEK_KMS = [30,32,35,38,40,35,43,30, 45,48,52,44,56,58,55,48,62, 58,62,60,65,55,58, 45,32,21];
- 
+
 const SESSION_TYPES = {
   1:{day:'Mar',name:'Rodaje suave',detail:'40–55 min Z2'},
   2:{day:'Mié',name:'Fartlek suave',detail:'30 min con 6×1\' a ritmo 21K'},
   3:{day:'Vie',name:'Rodaje suave',detail:'35–45 min Z2'},
   4:{day:'Sáb',name:'Tirada larga',detail:'60–90 min Z1–Z2'}
 };
- 
+
 const DEV_SESSIONS = {
   1:{day:'Mar',name:'Series',detail:'6–8×1000m a 4:10/km'},
   2:{day:'Jue',name:'Tempo run',detail:'20–30 min a 4:25/km'},
   3:{day:'Vie',name:'Rodaje suave',detail:'40–50 min Z2'},
   4:{day:'Sáb',name:'Tirada larga',detail:'90–110 min Z2'}
 };
- 
+
 const ESP_SESSIONS = {
   1:{day:'Mar',name:'Series largas',detail:'4–5×2000m a 4:10/km'},
   2:{day:'Jue',name:'Tempo 40 min',detail:'a 4:20–4:25/km'},
   3:{day:'Vie',name:'Suave',detail:'35 min Z2'},
   4:{day:'Sáb',name:'Tirada larga',detail:'90–100 min con 30–40\' a ritmo meta'}
 };
- 
+
 const TAP_SESSIONS = {
   1:{day:'Mar',name:'Series cortas',detail:'4×1000m a ritmo meta'},
   2:{day:'Jue',name:'Strides',detail:'15 min + 6×100m'},
   3:{day:'Sáb',name:'Activación',detail:'15 min + strides'},
   4:{day:'Dom',name:'🏁 CARRERA','detail':'21K sub 1:30!'}
 };
- 
+
 function getPhaseForWeek(w){
   if(w<=8)return 0;
   if(w<=17)return 1;
   if(w<=23)return 2;
   return 3;
 }
- 
+
 function getWeekSessions(w){
   const ph=getPhaseForWeek(w);
   if(ph===0)return SESSION_TYPES;
@@ -545,36 +545,36 @@ function getWeekSessions(w){
   if(ph===2)return ESP_SESSIONS;
   return TAP_SESSIONS;
 }
- 
+
 function weekStart(w){
   const d=new Date(PLAN_START);
   d.setDate(d.getDate()+(w-1)*7);
   return d;
 }
- 
+
 function currentWeek(){
   const now=new Date();
   const diff=Math.floor((now-PLAN_START)/(7*24*3600*1000))+1;
   return Math.max(1,Math.min(26,diff));
 }
- 
+
 function fmtDate(d){
   return d.toLocaleDateString('es-CL',{day:'numeric',month:'short'});
 }
- 
+
 function fmtDateShort(d){
   return d.toLocaleDateString('es-CL',{day:'2-digit',month:'2-digit'});
 }
- 
+
 function phaseOfWeek(w){
   const ph=getPhaseForWeek(w);
   return ['Base aeróbica','Desarrollo','Específica','Taper'][ph];
 }
- 
+
 // ─── SHEETS CONFIG ───────────────────────────────────────────────────────────
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbxJmMsOUNvh33yCCRbGxhJAxvC5NkSfK36FVuTMqbvUq4xfJK6MoQTT7V21sbnNR7xU6A/exec';
 let _logs=null; // in-memory cache
- 
+
 function setStatus(msg,isErr){
   let el=document.getElementById('sync-status');
   if(!el)return;
@@ -582,7 +582,7 @@ function setStatus(msg,isErr){
   el.style.color=isErr?'var(--danger)':'var(--accent)';
   if(!isErr&&msg)setTimeout(()=>{if(el.textContent===msg)el.textContent=''},3000);
 }
- 
+
 async function fetchLogs(){
   setStatus('Sincronizando…');
   try{
@@ -601,12 +601,12 @@ async function fetchLogs(){
     return _logs;
   }
 }
- 
+
 function getLogs(){
   if(_logs!==null)return _logs;
   return JSON.parse(localStorage.getItem('logs_21k')||'[]');
 }
- 
+
 async function pushLog(log){
   _logs=(_logs||[]);
   _logs.unshift(log);
@@ -616,7 +616,7 @@ async function pushLog(log){
     setStatus('Guardado en Sheets ✓');
   }catch(e){setStatus('Guardado local (sin internet)',true);}
 }
- 
+
 async function removeLog(id){
   _logs=(_logs||getLogs()).filter(l=>l.id!==id);
   localStorage.setItem('logs_21k',JSON.stringify(_logs));
@@ -625,7 +625,7 @@ async function removeLog(id){
     setStatus('Eliminado ✓');
   }catch(e){setStatus('Eliminado local (sin internet)',true);}
 }
- 
+
 // ─── FEELING ─────────────────────────────────────────────────────────────────
 let selectedFeeling='🙂';
 document.querySelectorAll('.feel-opt').forEach(el=>{
@@ -637,7 +637,7 @@ document.querySelectorAll('.feel-opt').forEach(el=>{
     setTimeout(()=>el.style.transform='scale(1)',150);
   });
 });
- 
+
 // ─── AUTO PACE ───────────────────────────────────────────────────────────────
 ['log-km','log-time'].forEach(id=>{
   document.getElementById(id).addEventListener('input',()=>{
@@ -650,7 +650,7 @@ document.querySelectorAll('.feel-opt').forEach(el=>{
     }else{document.getElementById('log-pace').value=''}
   });
 });
- 
+
 // ─── SAVE LOG ────────────────────────────────────────────────────────────────
 async function saveLog(){
   const date=document.getElementById('log-date').value;
@@ -669,13 +669,13 @@ async function saveLog(){
   showTab('historial');
   render();
 }
- 
+
 async function deleteLog(id){
   if(!confirm('¿Eliminar esta sesión?'))return;
   await removeLog(id);
   render();
 }
- 
+
 function clearForm(){
   document.getElementById('log-date').value=new Date().toISOString().slice(0,10);
   document.getElementById('log-type').value='Rodaje suave';
@@ -686,7 +686,7 @@ function clearForm(){
   selectedFeeling='🙂';
   document.querySelectorAll('.feel-opt').forEach(e=>{e.style.opacity='.4'});
 }
- 
+
 // ─── RENDER ──────────────────────────────────────────────────────────────────
 function renderHeader(){
   const logs=getLogs();
@@ -698,7 +698,7 @@ function renderHeader(){
   document.getElementById('hdr-done').textContent=logs.length;
   document.getElementById('hdr-km').textContent=totalKm.toFixed(1);
 }
- 
+
 function renderCurrentWeek(){
   const cw=currentWeek();
   const ph=getPhaseForWeek(cw);
@@ -714,7 +714,7 @@ function renderCurrentWeek(){
     <div class="cwc-sessions">${Object.values(sessions).map(s=>`<div class="cwc-session">${s.day}: ${s.name}</div>`).join('')}</div>
   </div>`;
 }
- 
+
 function renderProgress(){
   const cw=currentWeek();
   const el=document.getElementById('progress-bars');
@@ -733,7 +733,7 @@ function renderProgress(){
     weekNum+=ph.weeks;
   });
 }
- 
+
 function logEntryHTML(l,limit=false){
   const d=new Date(l.date+'T12:00:00');
   return `<div class="log-entry">
@@ -752,21 +752,21 @@ function logEntryHTML(l,limit=false){
     ${l.notes?`<div class="log-notes">${l.notes}</div>`:''}
   </div>`;
 }
- 
+
 function renderRecentLogs(){
   const logs=getLogs();
   const el=document.getElementById('recent-logs');
   if(!logs.length){el.innerHTML=`<div class="empty-state"><div style="font-size:32px">📋</div><p>Aún no has registrado sesiones.<br>¡Empieza con la primera!</p></div>`;return}
   el.innerHTML=logs.slice(0,5).map(l=>logEntryHTML(l,true)).join('');
 }
- 
+
 function renderAllLogs(){
   const logs=getLogs();
   const el=document.getElementById('all-logs');
   if(!logs.length){el.innerHTML=`<div class="empty-state"><div style="font-size:32px">📋</div><p>Sin sesiones aún.</p></div>`;return}
   el.innerHTML=logs.map(l=>logEntryHTML(l)).join('');
 }
- 
+
 function buildPlanMap(){
   const planMap={};
   for(let w=1;w<=26;w++){
@@ -783,7 +783,7 @@ function buildPlanMap(){
   }
   return planMap;
 }
- 
+
 function renderNextActivity(){
   const el=document.getElementById('next-activity-card');
   if(!el)return;
@@ -810,7 +810,7 @@ function renderNextActivity(){
     </div>
   </div>`;
 }
- 
+
 function renderPlan(){
   const cw=currentWeek();
   const el=document.getElementById('plan-list');
@@ -871,7 +871,7 @@ function renderPlan(){
     el.appendChild(item);
   }
 }
- 
+
 function toggleWeek(w){
   const detail=document.getElementById(`wd-${w}`);
   const chevron=document.getElementById(`arr-${w}`);
@@ -880,11 +880,11 @@ function toggleWeek(w){
   detail.classList.toggle('open',!isOpen);
   item.classList.toggle('is-open',!isOpen);
 }
- 
+
 // ─── CALENDAR ────────────────────────────────────────────────────────────────
 let calYear=new Date().getFullYear();
 let calMonth=new Date().getMonth();
- 
+
 function renderCalendar(){
   const months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   document.getElementById('cal-title').textContent=`${months[calMonth]} ${calYear}`;
@@ -893,18 +893,18 @@ function renderCalendar(){
   const logs=getLogs();
   const logMap={};
   logs.forEach(l=>{logMap[l.date]=(logMap[l.date]||[]); logMap[l.date].push(l);});
- 
+
   // build plan date map
   const planMapRaw=buildPlanMap();
   const planMap={};
   Object.keys(planMapRaw).forEach(k=>{planMap[k]=planMapRaw[k].map(s=>s.name);});
- 
+
   const firstDay=new Date(calYear,calMonth,1);
   let startDow=firstDay.getDay();
   startDow=startDow===0?6:startDow-1; // Mon=0
   const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
   const today=new Date().toISOString().slice(0,10);
- 
+
   for(let i=0;i<startDow;i++){
     const c=document.createElement('div');c.className='cal-cell empty';grid.appendChild(c);
   }
@@ -922,14 +922,14 @@ function renderCalendar(){
     grid.appendChild(c);
   }
 }
- 
+
 function changeMonth(dir){
   calMonth+=dir;
   if(calMonth>11){calMonth=0;calYear++}
   if(calMonth<0){calMonth=11;calYear--}
   renderCalendar();
 }
- 
+
 // ─── TAB NAV ─────────────────────────────────────────────────────────────────
 function showTab(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -940,7 +940,7 @@ function showTab(id){
   if(id==='plan')renderPlan();
   if(id==='calendario')renderCalendar();
 }
- 
+
 function render(){
   renderHeader();
   renderCurrentWeek();
@@ -948,7 +948,7 @@ function render(){
   renderProgress();
   renderRecentLogs();
 }
- 
+
 // ─── INIT ────────────────────────────────────────────────────────────────────
 document.getElementById('log-date').value=new Date().toISOString().slice(0,10);
 render(); // render with local cache first
