@@ -36,8 +36,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min
 .stat-h{font-family:'DM Mono',monospace;font-size:22px;font-weight:500;color:var(--accent-mid)}
 .stat-l{font-size:11px;opacity:.5;text-transform:uppercase;letter-spacing:.08em}
 /* NAV */
-.nav{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--surface);padding:0 32px}
-.nav-btn{padding:14px 20px;font-size:13px;font-family:'DM Mono',monospace;border:none;background:none;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;letter-spacing:-.01em}
+.nav{display:flex;gap:0;border-bottom:1px solid var(--border);background:var(--surface);padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;width:100%}
+.nav::-webkit-scrollbar{display:none}
+.nav-btn{padding:14px 16px;font-size:13px;font-family:'DM Mono',monospace;border:none;background:none;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all .15s;letter-spacing:-.01em;white-space:nowrap;flex-shrink:0}
 .nav-btn.active{color:var(--text);border-bottom-color:var(--accent)}
 /* MAIN */
 .main{max-width:960px;margin:0 auto;padding:32px 24px}
@@ -161,29 +162,28 @@ select.form-input{cursor:pointer}
 /* Scrollbar */
 ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 /* MOBILE */
-@media(max-width:600px){
-  .header{padding:16px;flex-wrap:wrap;gap:12px}
-  .header-left h1{font-size:15px}
-  .header-right{gap:12px;width:100%;justify-content:space-between}
-  .stat-h{font-size:17px}
-  .stat-l{font-size:10px}
-  .nav{padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .nav::-webkit-scrollbar{display:none}
-  .nav-btn{padding:12px 14px;font-size:12px;white-space:nowrap;flex-shrink:0}
-  .main{padding:16px 12px}
-  .card{padding:14px 16px}
-  .race-card{flex-direction:column;gap:8px;padding:16px}
+@media(max-width:640px){
+  .header{padding:14px 16px;flex-direction:column;align-items:flex-start;gap:10px}
+  .header-left h1{font-size:16px}
+  .header-right{gap:0;width:100%;display:grid;grid-template-columns:repeat(3,1fr);text-align:center}
+  .stat-h{font-size:18px}
+  .stat-l{font-size:9px;letter-spacing:.04em}
+  .nav{padding:0 8px}
+  .nav-btn{padding:12px 13px;font-size:12px;flex-shrink:0}
+  .main{padding:14px 12px}
+  .card{padding:14px 14px}
+  .race-card{flex-direction:column;gap:8px;padding:14px}
   .countdown{text-align:left}
   .countdown-num{font-size:28px}
   .form-grid{grid-template-columns:1fr 1fr;gap:8px}
   .form-grid .form-row:last-child{grid-column:span 2}
   .week-item-inner{grid-template-columns:44px 1fr auto auto;gap:6px}
-  .week-item-inner .week-km{display:none}
+  .week-km{display:none}
   .cwc-sessions{gap:6px}
   .cwc-session{font-size:11px;padding:4px 8px}
-  .next-card{flex-direction:column;gap:8px}
+  .next-card{flex-direction:column;gap:6px;padding:14px 16px}
   .next-card-right{text-align:left}
-  .prog-row{grid-template-columns:52px 1fr 72px}
+  .prog-row{grid-template-columns:52px 1fr 70px}
 }
 </style>
 </head>
@@ -193,7 +193,7 @@ select.form-input{cursor:pointer}
   <div class="header-left">
     <h1>21K · PLAN DE ENTRENAMIENTO</h1>
     <p>29 nov 2026 · Meta: sub 1:30:00 &nbsp;<span id="sync-status" style="font-size:11px;opacity:.8"></span></p>
-    <p style="font-size:10px;opacity:.35;margin-top:2px;font-family:'DM Mono',monospace">v2025-06-03-002</p>
+    <p style="font-size:10px;opacity:.35;margin-top:2px;font-family:'DM Mono',monospace">v2025-06-03-004</p>
   </div>
   <div class="header-right">
     <div>
