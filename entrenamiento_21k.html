@@ -160,6 +160,31 @@ select.form-input{cursor:pointer}
 .week-item.is-open .chevron-btn{background:var(--text);border-color:var(--text);color:#fff;transform:rotate(180deg)}
 /* Scrollbar */
 ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+/* MOBILE */
+@media(max-width:600px){
+  .header{padding:16px;flex-wrap:wrap;gap:12px}
+  .header-left h1{font-size:15px}
+  .header-right{gap:12px;width:100%;justify-content:space-between}
+  .stat-h{font-size:17px}
+  .stat-l{font-size:10px}
+  .nav{padding:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .nav::-webkit-scrollbar{display:none}
+  .nav-btn{padding:12px 14px;font-size:12px;white-space:nowrap;flex-shrink:0}
+  .main{padding:16px 12px}
+  .card{padding:14px 16px}
+  .race-card{flex-direction:column;gap:8px;padding:16px}
+  .countdown{text-align:left}
+  .countdown-num{font-size:28px}
+  .form-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .form-grid .form-row:last-child{grid-column:span 2}
+  .week-item-inner{grid-template-columns:44px 1fr auto auto;gap:6px}
+  .week-item-inner .week-km{display:none}
+  .cwc-sessions{gap:6px}
+  .cwc-session{font-size:11px;padding:4px 8px}
+  .next-card{flex-direction:column;gap:8px}
+  .next-card-right{text-align:left}
+  .prog-row{grid-template-columns:52px 1fr 72px}
+}
 </style>
 </head>
 <body>
@@ -168,6 +193,7 @@ select.form-input{cursor:pointer}
   <div class="header-left">
     <h1>21K · PLAN DE ENTRENAMIENTO</h1>
     <p>29 nov 2026 · Meta: sub 1:30:00 &nbsp;<span id="sync-status" style="font-size:11px;opacity:.8"></span></p>
+    <p style="font-size:10px;opacity:.35;margin-top:2px;font-family:'DM Mono',monospace">v2025-06-03-001</p>
   </div>
   <div class="header-right">
     <div>
